@@ -39,10 +39,9 @@ bool oldDeviceConnected = false;
 
 int sensorPins[4] = {27, 14, 12, 13};
 int txValue[4] = {0, 0, 0, 0};
-
 unsigned long lastTime = 0;
-unsigned long timerDelay = 10; //100Hz sample rate
-//unsigned long timerDelay = (1000/60); //60Hz sample rate
+//unsigned long timerDelay = 10; //100Hz sample rate//
+unsigned long timerDelay = (1000/50); //50Hz sample rate
 
 bool send_data = false;
 
@@ -139,7 +138,7 @@ void loop() {
       if  (send_data) {
           //Serial.println("Sending data");
           }
-          char buffer[100];
+          char buffer[64];
           int start = millis();
           int now = 0;
           int last_meas = 0;
@@ -157,7 +156,7 @@ void loop() {
                         txValue[i] = analogRead(sensorPins[i]);
                    }
                    
-                sprintf(buffer, "%u,%u,%u,%u,%u ", now, txValue[0], txValue[1], txValue[2], txValue[3]);
+                sprintf(buffer, "%u,%u,%u,%u,%u", now, txValue[0], txValue[1], txValue[2], txValue[3]);
                 pTxCharacteristic->setValue(buffer);
                 pTxCharacteristic->notify();
                 
