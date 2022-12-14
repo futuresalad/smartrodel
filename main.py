@@ -101,9 +101,27 @@ async def main():
     
     success = False
     consent = False
+    sl_val = 20
     files_exist = False
     dl_filename = ""
     col1, col2= st.columns([1,3])
+
+
+    with col2:
+
+        st.title("SmartRodel Dashboard")
+
+        sl_val = st.slider(label="Recording duration in seconds", min_value=0, max_value=120, value=sl_val, label_visibility="visible")
+        
+        dl_filename = st.selectbox("Aufnahemen", f, index=0, on_change=None, disabled=False, label_visibility="hidden")
+
+        consent = st.checkbox('Yes, i want to delete all recordings')
+
+        if consent:
+            st.text("⚠️ All records will be permanently removed")
+            consent = st.button("Clear data")
+
+            del_files(consent)
 
     with col1:
         
@@ -113,9 +131,10 @@ async def main():
             success = False
             try:
                 with st.spinner('Recording'):
-                    success = await ESP32_1.get_data(slider)
+                    success = await ESP32_1.get_data(sl_val)
 
-            except: 
+            except Exception as e: 
+                print(e)
                 st.error("Not able to connect")
                 success = False
 
@@ -129,21 +148,7 @@ async def main():
 
 
 
-    with col2:
 
-        st.title("SmartRodel Dashboard")
-
-        slider = st.slider(label="Recording duration in seconds", min_value=0, max_value=120, value=10, label_visibility="visible")
-        
-        dl_filename = st.selectbox("Aufnahemen", f, index=0, on_change=None, disabled=False, label_visibility="hidden")
-
-        consent = st.checkbox('Yes, i want to delete all recordings')
-
-        if consent:
-            st.text("⚠️ All records will be permanently removed")
-            consent = st.button("Clear data")
-
-            del_files(consent)
 
     with col1:
         try:
