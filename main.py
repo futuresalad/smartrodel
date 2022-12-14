@@ -63,8 +63,8 @@ class bt_daq():
                         time.sleep(duration)
                         await client.write_gatt_char(self.TX_UUID, self.txOff)
                         success = True
-        except:
-            print("Could not connect to ESP32")
+        except Exception as e:
+            print(e)
             success = False
         finally:      
             print("Exiting")
@@ -132,6 +132,7 @@ async def main():
             try:
                 with st.spinner('Recording'):
                     success = await ESP32_1.get_data(sl_val)
+                    st.text("Data recorded")
 
             except Exception as e: 
                 print(e)
@@ -139,14 +140,20 @@ async def main():
                 success = False
 
         if success:
-            st.text("Data recorded")
+            
             ESP32_1.export_data()
         
         if st.button("♻️ Refresh records"):
             f = refresh_files()
 
 
+    try:
 
+        chart_data = pd.read_csv(f'./data_export/{dl_filename}', usecols=['vl','vr','hl','hr'])
+        st.line_chart(chart_data)
+
+    except:
+        st.info("No recording selected")
 
 
 
