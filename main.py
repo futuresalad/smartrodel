@@ -4,7 +4,6 @@ import numpy as np
 import datetime
 import time
 import asyncio
-import plotly_express as px
 import streamlit as st
 import os
 
@@ -90,11 +89,15 @@ def del_files(consent):
             st.text("Files deleted")
 
 
-async def main():
-
+def refresh_files():
     f = []
     for (dirpath, dirnames, filenames) in os.walk("./data_export"):
         f.extend(filenames)
+    
+    return f
+
+async def main():
+    f = refresh_files()
     
     success = False
     consent = False
@@ -119,25 +122,18 @@ async def main():
         if success:
             st.text("Data recorded")
             ESP32_1.export_data()
+        
+        if st.button("♻️ Refresh records"):
+            f = refresh_files()
 
-        try:
-            with open(f"./data_export/{dl_filename}", "rb") as file:
 
-                st.download_button(
-                label="💾 Download CSV",
-                data=file,
-                disabled=files_exist,
-                file_name=dl_filename
-                )
-        except:
-            st.button("💾 Download CSV", disabled=True)
 
 
     with col2:
 
         st.title("SmartRodel Dashboard")
 
-        slider = st.slider(label="Aufnahmedauer in Sekunden", min_value=0, max_value=120, value=10, label_visibility="visible")
+        slider = st.slider(label="Recording duration in seconds", min_value=0, max_value=120, value=10, label_visibility="visible")
         
         dl_filename = st.selectbox("Aufnahemen", f, index=0, on_change=None, disabled=False, label_visibility="hidden")
 
@@ -149,6 +145,19 @@ async def main():
 
             del_files(consent)
 
+    with col1:
+        try:
+            
+            with open(f"./data_export/{dl_filename}", "rb") as file:
+
+                st.download_button(
+                label="⬇️ Download CSV",
+                data=file,
+                disabled=files_exist,
+                file_name=dl_filename
+                )
+        except:
+            st.button("💾 Download CSV", disabled=True)
 
 
 success = False
