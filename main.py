@@ -59,6 +59,7 @@ class bt_daq():
             async with BleakClient(self.mac) as client:
                     
                 if client.is_connected:
+                        await st.success("Connected")
                         await client.start_notify(self.ANGLE_UUID, self.callback)
                         await client.write_gatt_char(self.TX_UUID, self.txOn)
                         time.sleep(duration)
@@ -144,7 +145,7 @@ async def main():
 
             except Exception as e: 
                 print(e)
-                st.error("Not able to connect")
+                
                 success = False
 
         if success:
