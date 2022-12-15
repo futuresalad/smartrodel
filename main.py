@@ -7,8 +7,9 @@ import asyncio
 import streamlit as st
 import os
 
-mac = ("30:C6:F7:DD:C7:F6")
-success = False
+#mac = ("30:C6:F7:DD:C7:F6") dev nxn
+mac = ("24:0A:C4:62:52:FE")
+connected = False
 ANGLE_UUID = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
 TX_UUID = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
 img_path ="./icon.png"
@@ -63,6 +64,10 @@ class bt_daq():
                         time.sleep(duration)
                         await client.write_gatt_char(self.TX_UUID, self.txOff)
                         success = True
+
+                else:
+                    print(f'BT Device with MAC {self.mac} not found')
+
         except Exception as e:
             print(e)
             success = False
@@ -126,7 +131,10 @@ async def main():
     with col1:
         
         st.image(img_path)
+        if connected:
+            st.success("Device found")
         
+
         if st.button("🔴 Start recording"):
             success = False
             try:
@@ -172,7 +180,7 @@ async def main():
             st.button("💾 Download CSV", disabled=True)
 
 
-success = False
-ESP32_1 = bt_daq("30:C6:F7:DD:C7:F6")
+connected = False
+ESP32_1 = bt_daq(mac)
 asyncio.run(main())
 

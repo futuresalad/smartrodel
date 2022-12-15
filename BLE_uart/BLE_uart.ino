@@ -25,11 +25,6 @@
 #include <BLEUtils.h>
 #include <BLE2902.h>
 
-int PinVL = 27;
-int PinVR = 14;
-int PinHL = 12;
-int PinHR = 13;
-
 // Bluetooth config 
 BLEServer *pServer = NULL;
 BLECharacteristic * pTxCharacteristic;
@@ -133,7 +128,7 @@ void loop() {
 
       if (deviceConnected) {
 
-        //Serial.println("Awaiting commands..");
+        Serial.println("Awaiting commands..");
 
       if  (send_data) {
           //Serial.println("Sending data");
