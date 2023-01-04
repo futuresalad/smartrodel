@@ -48,9 +48,11 @@ def get_files():
 def download(path):
 
     """Download a file."""
+
     try:
         return send_from_directory(CSV_PATH, path, as_attachment=True)
     except FileNotFoundError:
+
         print("404")
 
 @app.route('/get_time', methods=['POST','GET'])
@@ -86,7 +88,6 @@ def startRec():
                             ble.df.to_csv(f'{CSV_PATH}/{datetime.now()}_earlystop.csv', sep=',', index=None)
                             plot_img(ble.df)
 
-
                      except Exception as e:
                             print(e)
               finally:
@@ -104,12 +105,10 @@ def stopRec():
               ble.stop_record()
               ble.df.to_csv(f'{CSV_PATH}/{datetime.now()}_stopped.csv', sep=',', index=None)
               plot_img(ble.df)
-
               return ble.df.to_json()
 
        except Exception as e:
               print(e)
-
 
        return "0"
 
@@ -121,6 +120,9 @@ def deleteFiles():
        for file_name in file_names:
                 file_path = f'{CSV_PATH}/' + file_name
                 os.remove(file_path)
+                print(f"Deleted file: {file_path}")
+
+       return "0"
        
 
 if __name__ == "__main__":

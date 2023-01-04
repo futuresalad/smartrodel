@@ -26,6 +26,9 @@
          option.text = file.name;
          fileSelect.add(option);
        }
+       var option_default = document.createElement('option');
+       option_default.text = "Select file";
+       fileSelect.add(option_default);
      }
    };
    xhr.send();
