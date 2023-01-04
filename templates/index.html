@@ -7,23 +7,48 @@
 {% block body %}
 
 <div>
-  <h1 class="h1 txt">Smart Rodel Dashboard</h1>
+  <h1 class="h1 txt">Smart Rodel Control</h1>
 </div>
 
-<div>
+
+
+<div class="container">
   <!-- Slider -->
-  <label for="slider" id="description" class="p txt">Seconds to record:</label>
-    <input type="range" id="range-slider" name="tval" min="0" max="120" value="60">
-  <input type="text" id="text-field-time" name="range-slider" value="60">
+
+  <div class="center">
+    <table>
+      <tr>
+        <td>
+          <p class="p txt" id="rangeParagraph">0</p>
+        </td>
+        <td>
+          <p class="p txt">s</p>
+        </td>
+      </tr>
+
+    </table>
+
+  </div>
+  
 </div>
 
-<div>
-  <!-- Buttons -->
-  <button type="button" class="btn btn-start" id="start-button" value="start" onclick=action(value)>Start</button>
-  <button type="button" class="btn btn-stop" id="stop-button" value="stop" onclick=action(value)>Stop</button>
+<div class="container">
+  <input class="slider center" type="range" id="range-slider" name="tval" min="0" max="120" value="60">
 </div>
 
-<img src="{{ url_for('static', filename='images/plot.png') }}" alt="Plot" align="middle" />
+<div class="container">
+
+  <div class="center">
+
+        <button type="button" class="btn btn-start" id="start-button" value="start" onclick=action(value)>Start</button>
+
+        <button type="button" class="btn btn-stop" id="stop-button" value="stop" onclick=action(value)>Stop</button>
+
+  </div>
+
+</div>
+
+  <img src="{{ url_for('static', filename='images/plot.png') }}" alt="Plot" align="middle" />
 
 {% endblock %}
 

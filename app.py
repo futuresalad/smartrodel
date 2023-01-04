@@ -18,7 +18,7 @@ def plot_img(df):
        
        fig = px.scatter(df, x='time', y=['vl', 'vr', 'hl', 'hr'])
        fig.update_layout(template="plotly_dark")
-       fig.update_layout(plot_bgcolor="#192740", paper_bgcolor="#192740")
+       fig.update_layout(plot_bgcolor="#495057", paper_bgcolor="#212529")
        fig.to_image(format='png')
        fig.write_image("static/images/plot.png")
 

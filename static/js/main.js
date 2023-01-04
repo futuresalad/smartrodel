@@ -1,11 +1,14 @@
 const xhttp = new XMLHttpRequest();
 const rangeSlider = document.getElementById('range-slider');
-const timeText = document.getElementById('text-field-time');
+const rValue = document.getElementById('rangeParagraph');
+
+
 
 rangeSlider.addEventListener('input', function() {
   const rangeSliderValue = rangeSlider.value;
 
-  timeText.value = rangeSliderValue;
+  rValue.innerHTML = rangeSliderValue;
+
 
   xhttp.open('POST', '/get_time', true);
   xhttp.setRequestHeader('Content-Type', 'application/json');
