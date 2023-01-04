@@ -2,8 +2,6 @@ const xhttp = new XMLHttpRequest();
 const rangeSlider = document.getElementById('range-slider');
 const rValue = document.getElementById('rangeParagraph');
 
-
-
 rangeSlider.addEventListener('input', function() {
   const rangeSliderValue = rangeSlider.value;
 
@@ -26,3 +24,5 @@ function action(command)
     xhttp.open("POST", command);
     xhttp.send();
 }
+
+  

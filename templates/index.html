@@ -19,10 +19,10 @@
     <table>
       <tr>
         <td>
-          <p class="p txt" id="rangeParagraph">0</p>
+          <p class="p txt" id="rangeParagraph">Set time in </p>
         </td>
         <td>
-          <p class="p txt">s</p>
+          <p class="p txt">[s]</p>
         </td>
       </tr>
 
@@ -33,7 +33,7 @@
 </div>
 
 <div class="container">
-  <input class="slider center" type="range" id="range-slider" name="tval" min="0" max="120" value="60">
+  <input class="slider center" type="range" id="range-slider" name="tval" min="0" max="60" value="30">
 </div>
 
 <div class="container">
@@ -42,13 +42,40 @@
 
         <button type="button" class="btn btn-start" id="start-button" value="start" onclick=action(value)>Start</button>
 
-        <button type="button" class="btn btn-stop" id="stop-button" value="stop" onclick=action(value)>Stop</button>
-
   </div>
 
 </div>
 
-  <img src="{{ url_for('static', filename='images/plot.png') }}" alt="Plot" align="middle" />
+<div class="container">
+  <table class="center">
+    <tr>
+      <td>
+          <!-- Create a dropdown menu using the select element -->
+          <select id="file-select"></select>
+
+      </td>
+      <td>
+          <!-- Create a button to download the selected file -->
+          <button id="download-button">Download</button>
+
+          <!-- Create a hidden link that will be used to download the file -->
+          <a id="download-link" style="display:none" />
+
+      </td>
+
+
+    </tr>
+  </table>
+
+
+
+</div>
+
+<p class="txt p">Last recording:</p>
+
+<img src="{{ url_for('static', filename='images/plot.png') }}" alt="Plot" align="middle" />
+
+<button type="button"  id="del-button" value="delete" onclick=action(value)>Delete files</button>
 
 {% endblock %}
 

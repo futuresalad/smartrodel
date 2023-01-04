@@ -46,8 +46,8 @@ body {
   } 
 
 .btn {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 30px;
+    padding-bottom: 30px;
     padding-left: 30px;
     padding-right: 30px;
     border-radius: 2px;
@@ -58,7 +58,7 @@ body {
 }
 
 .container {
-  height: 75px;
+  height: 100px;
   position: relative;
   background-color: #343a40;
   margin: 1%;
