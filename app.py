@@ -3,7 +3,7 @@ from datetime import datetime
 from ble import BLE
 from flask import Flask, render_template, url_for, request, send_from_directory, jsonify
 import plotly.express as px
-import os
+import os, asyncio
 
 CSV_PATH = 'records'
 
@@ -62,7 +62,7 @@ def get_time():
        return "get_time"
 
 @app.route('/start', methods=['POST','GET'])
-def startRec():
+async def startRec():
 
        filename = ""
        print("Start")
@@ -71,10 +71,10 @@ def startRec():
        if connected:
               try:
 
-                     ble.start_record()
+                     await ble.start_record()
                      sleep(sliderValue)
                      print("Time ended")
-                     ble.stop_record()
+                     await ble.stop_record()
                      filename = f'{CSV_PATH}/{datetime.now()}_ok.csv'
                      ble.df.to_csv(filename, sep=',' , index=None)
                      plot_img(ble.df)
@@ -97,12 +97,12 @@ def startRec():
        return "0"
 
 @app.route('/stop', methods=['POST','GET'])
-def stopRec():
+async def stopRec():
 
        print("Stop")
 
        try:
-              ble.stop_record()
+              await ble.stop_record()
               ble.df.to_csv(f'{CSV_PATH}/{datetime.now()}_stopped.csv', sep=',', index=None)
               plot_img(ble.df)
               return ble.df.to_json()

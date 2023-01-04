@@ -47,7 +47,7 @@ class BLE():
             return self.connected
 
     # Start recording
-    def start_record(self):
+    async def start_record(self):
     
         try:
             self.device.char_write(self.TX_UUID, bytearray("on",'utf-8'))
@@ -57,7 +57,7 @@ class BLE():
             print(e)
 
     # Stop recording
-    def stop_record(self):
+    async def stop_record(self):
             
         try:
             self.device.char_write(self.TX_UUID, bytearray("off",'utf-8'))

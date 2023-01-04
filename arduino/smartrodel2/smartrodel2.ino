@@ -30,7 +30,7 @@ unsigned long lastTime = 0;
 bool send_data = false;
 
 // Sample rate: 50Hz
-unsigned long sample_delay = 1000/100;
+unsigned long sample_delay = 1000/50;
 //unsigned long sample_delay = 1000;
 
 // Initializing time variables

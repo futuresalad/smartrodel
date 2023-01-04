@@ -47,7 +47,5 @@
     
     // Set the download attribute of the download link to the file name
     downloadLink.download = file.substring(file.lastIndexOf('/') + 1);
-    
-    // Simulate a click on the download link
     downloadLink.click();
   });
