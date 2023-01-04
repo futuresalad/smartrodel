@@ -1,0 +1,48 @@
+body {
+    background-color: #192740
+}
+.txt{
+    font-family: Helvetica;
+}
+
+.h1 {
+    color: #85AED0;
+}
+
+.p {
+    color: #B8D1E0;
+}
+
+.slider{
+    padding: 30px;
+    border-radius: 5px;
+    height: 50px;
+    width: 80%;
+}
+
+.btn {
+    
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 3px;
+    color: #E0E1DD;
+    font-size: 20px;
+    margin:3%;
+
+}
+
+.btn-start {
+    background-color: #4B6D90;
+    
+}
+
+.btn-stop {
+    background-color: #4B6D90;
+}
+
+img {
+    width: 100%; /* takes the 100 % width of its container (.box div)*/
+    height: 100%; /* takes the 100 % height of its container (.box div)*/
+  }
