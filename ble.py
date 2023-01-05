@@ -29,8 +29,8 @@ class BLE():
     # Callback function that will be called whenever new data is received
     def handle_data(self, handle, value):
         message = value.decode("utf-8").split(",")
-        f = open(self.filename, 'a')
-        f.write(str(message)+'\n')
+        with open(self.filename, 'a') as f:
+            f.write(str(message)+'\n')
         
         #print(message)
         #self.data.append(message)
