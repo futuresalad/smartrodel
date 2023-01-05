@@ -67,18 +67,20 @@ def startRec():
 
        filename = ""
        print("Start")
+       filename = f'{CSV_PATH}/{datetime.now()}_ok.csv'
+
        connected = ble.connect()
        
        if connected:
               try:
 
-                     ble.start_record(sliderValue)
+                     ble.start_record(sliderValue, filename)
                      sleep(sliderValue)
                      print("Time ended")
                      ble.stop_record()
                      ble.df = pd.DataFrame(ble.data, columns=['time','vl','vr','hl','hr'])
-                     filename = f'{CSV_PATH}/{datetime.now()}_ok.csv'
-                     ble.df.to_csv(filename, sep=',' , index=None)
+                     
+                     #ble.df.to_csv(filename, sep=',' , index=None)
                      plot_img(ble.df)
                      
 
@@ -87,7 +89,7 @@ def startRec():
 
                      try:
                             ble.stop_record()
-                            ble.df.to_csv(f'{CSV_PATH}/{datetime.now()}_earlystop.csv', sep=',', index=None)
+                            #ble.df.to_csv(f'{CSV_PATH}/{datetime.now()}_earlystop.csv', sep=',', index=None)
                             plot_img(ble.df)
 
                      except Exception as e:

@@ -23,14 +23,18 @@ class BLE():
         self.df = pd.DataFrame(columns=['time','vl','vr','hl','hr'])
         self.data_cols = ['vl','vr','hl','hr']
         self.data = []
+        self.filename = ''
     
 
     # Callback function that will be called whenever new data is received
     def handle_data(self, handle, value):
         message = value.decode("utf-8").split(",")
-        print(message)
-        self.data.append(message)
-        print(f"Incoming value: {self.data}")
+        f = open(self.filename, 'a')
+        f.write(str(message)+'\n')
+        
+        #print(message)
+        #self.data.append(message)
+        #print(f"Incoming value: {self.data}")
         #self.df.loc[len(self.df)] = self.data
 
     # Establish connection to ESP32
@@ -50,8 +54,10 @@ class BLE():
             return self.connected
 
     # Start recording
-    def start_record(self, recTime):
+    def start_record(self, recTime, filename):
     
+        self.filename = filename
+        
         try:
             self.device.char_write(self.TX_UUID, bytearray(str(recTime),'utf-8'))
             self.device.char_write(self.TX_UUID, bytearray("on",'utf-8'))
