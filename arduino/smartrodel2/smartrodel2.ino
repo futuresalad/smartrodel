@@ -30,13 +30,14 @@ unsigned long lastTime = 0;
 bool send_data = false;
 
 // Sample rate: 50Hz
-unsigned long sample_delay = 1000/50;
-//unsigned long sample_delay = 1000;
+unsigned long sample_time = 1000/50;
+//unsigned long sample_time = 1000;
 
 // Initializing time variables
 int start = 0;
 int now = 0;
 int last_meas = 0;
+int rec_time = 0;
 
 // Initializing TX buffer
 char buffer[64];
@@ -57,24 +58,35 @@ class MyCallbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {
         
       std::string rxValue = pCharacteristic->getValue();
-  
+      String payload = "";
+      
       if (rxValue.length() > 0) {
           Serial.print("Received data: ");
           
          for (int i = 0; i < rxValue.length(); i++) {
               Serial.print(rxValue[i]);
+              payload.concat(rxValue[i]);
             }
+    
+         
          Serial.println();
             
-         if (rxValue == "on") {
+         if (payload == "on") {
             Serial.println("Start sending");
             send_data = true;
             }
-         
-         else {
+            
+         else if (payload == "off") {
             Serial.println("Stop sending");
             send_data = false;
+
             }
+                     
+         else {
+            Serial.print("Time to record: ");
+            Serial.println(payload);
+            rec_time = payload.toInt()*1000;
+            } 
         
         }
    } 
@@ -122,12 +134,14 @@ void loop() {
     if (deviceConnected && send_data) {
        now = millis();
        start = millis();
-
-       while(deviceConnected && send_data){
-        
+       int sample_num = 0;
+       
+       while(deviceConnected && send_data) {
+           
            now = millis() - start;
            
-           if ((now - last_meas) >= sample_delay) {
+           if ((now - last_meas) >= sample_time) {
+            
                  last_meas = now;
                  
                  for (int i = 0; i < 4; i++){ 
@@ -139,9 +153,13 @@ void loop() {
                  Serial.println(buffer);
                  pTxCharacteristic->setValue(buffer);
                  pTxCharacteristic->notify();
-                
+                 sample_num++;
                  }
-           }
+
+              if ((sample_num >= (rec_time * sample_time))|| (now >= rec_time)) {
+                send_data = false;
+              }
+        }
     }
 
 

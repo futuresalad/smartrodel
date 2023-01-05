@@ -22,13 +22,16 @@ class BLE():
         # Dataframe where sensor data is recorded in
         self.df = pd.DataFrame(columns=['time','vl','vr','hl','hr'])
         self.data_cols = ['vl','vr','hl','hr']
+        self.data = []
     
 
     # Callback function that will be called whenever new data is received
     def handle_data(self, handle, value):
-        data = value.decode("utf-8").split(",")
-        print(f"Incoming value: {data}")
-        self.df.loc[len(self.df)] = data
+        message = value.decode("utf-8").split(",")
+        print(message)
+        self.data.append(message)
+        print(f"Incoming value: {self.data}")
+        #self.df.loc[len(self.df)] = self.data
 
     # Establish connection to ESP32
     def connect(self):
@@ -47,17 +50,19 @@ class BLE():
             return self.connected
 
     # Start recording
-    async def start_record(self):
+    def start_record(self, recTime):
     
         try:
+            self.device.char_write(self.TX_UUID, bytearray(str(recTime),'utf-8'))
             self.device.char_write(self.TX_UUID, bytearray("on",'utf-8'))
+            
             
         except Exception as e:
             print("No device connected")
             print(e)
 
     # Stop recording
-    async def stop_record(self):
+    def stop_record(self):
             
         try:
             self.device.char_write(self.TX_UUID, bytearray("off",'utf-8'))
