@@ -125,7 +125,7 @@ void setup() {
 
   // Start advertising
   pServer->getAdvertising()->start();
-  Serial.println("Waiting a client connection to notify...");
+  Serial.println("Waiting a client connection...");
 
 }
 

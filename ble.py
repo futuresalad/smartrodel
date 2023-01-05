@@ -9,6 +9,8 @@ class BLE():
         self.RX_UUID = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
         self.TX_UUID = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
 
+
+
         # ESP32 Mac address
         self.DEVICE_ADDRESS = address
 
@@ -29,11 +31,7 @@ class BLE():
     # Callback function that will be called whenever new data is received
     def handle_data(self, handle, value):
         message = value.decode("utf-8").split(",")
-        with open(self.filename, 'a') as f:
-            f.write(str(message)+'\n')
-        
-        #print(message)
-        #self.data.append(message)
+        self.data.append(message)
         #print(f"Incoming value: {self.data}")
         #self.df.loc[len(self.df)] = self.data
 
@@ -42,7 +40,13 @@ class BLE():
         try:
             self.adapter.start()
             self.device = self.adapter.connect(self.DEVICE_ADDRESS)
-            self.device.subscribe(self.RX_UUID, callback=self.handle_data)
+            #self.device.subscribe(self.RX_UUID, callback=self.handle_data)
+            characteristic = self.device.char_read(self.RX_UUID)
+
+            # Read the value of the characteristic
+            value = characteristic.read()
+            print(f"Reading: {value}")
+
             print("Subscribed to RX_UUID")
             self.connected = True
 

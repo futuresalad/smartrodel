@@ -79,8 +79,7 @@ def startRec():
                      print("Time ended")
                      ble.stop_record()
                      ble.df = pd.DataFrame(ble.data, columns=['time','vl','vr','hl','hr'])
-                     
-                     #ble.df.to_csv(filename, sep=',' , index=None)
+                     ble.df.to_csv(filename, sep=',' , index=None)
                      plot_img(ble.df)
                      
 
